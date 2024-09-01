@@ -1,7 +1,7 @@
 package edu.brian.queue;
 
-public class Queue {
-  private Node queueEnd;
+public class Queue<T> {
+  private Node<T> queueEnd;
 
   public Queue() {
     this.queueEnd = null;
@@ -13,10 +13,10 @@ public class Queue {
     return false;
   }
 
-  public Node first() {
+  public T first() {
     if (this.isEmpty())
       return null;
-    Node auxiliaryNode = this.queueEnd;
+    Node<T> auxiliaryNode = this.queueEnd;
     while (true) {
       if (auxiliaryNode.getRefNode() != null) {
         auxiliaryNode = auxiliaryNode.getRefNode();
@@ -24,18 +24,18 @@ public class Queue {
         break;
       }
     }
-    return auxiliaryNode;
+    return auxiliaryNode.getObj();
   }
 
-  public Node dequeue() {
+  public T dequeue() {
     if (this.isEmpty())
       return null;
-    Node firstNode = this.queueEnd;
+    Node<T> firstNode = this.queueEnd;
     if (firstNode.getRefNode() == null) {
       this.queueEnd = null;
-      return firstNode;
+      return firstNode.getObj();
     }
-    Node auxiliaryNode = this.queueEnd;
+    Node<T> auxiliaryNode = this.queueEnd;
 
     while (true) {
       if (firstNode.getRefNode() != null) {
@@ -46,13 +46,13 @@ public class Queue {
         break;
       }
     }
-    return firstNode;
+    return firstNode.getObj();
   }
 
-  public void enqueue(Node newNode) {
-    Node prevLast = this.queueEnd;
+  public void enqueue(T object) {
+    Node<T> newNode = new Node<T>(object);
+    newNode.setRefNode(this.queueEnd);
     this.queueEnd = newNode;
-    this.queueEnd.setRefNode(prevLast);
   }
 
   @Override
@@ -60,7 +60,7 @@ public class Queue {
     String printQueue = "-----------\n";
     printQueue += "QUEUE\n";
     printQueue += "-----------\n";
-    Node auxiliaryNode = this.queueEnd;
+    Node<T> auxiliaryNode = this.queueEnd;
     if (this.isEmpty()) {
       printQueue += "null";
       return printQueue;
