@@ -88,6 +88,22 @@ public class DoublyLinkedList<T> {
     this.listSize++;
   }
 
+  public T remove(int idx) {
+    Node<T> auxNode = this.getNode(idx);
+    if (idx == 0) {
+      auxNode.getNextNode().setPrevNode(null);
+      this.head = auxNode.getNextNode();
+    } else if (idx == (this.listSize - 1)) {
+      auxNode.getPrevNode().setNextNode(null);
+      this.tail = auxNode;
+    } else {
+      auxNode.getNextNode().setPrevNode(auxNode.getPrevNode());
+      auxNode.getPrevNode().setNextNode(auxNode.getNextNode());
+    }
+    this.listSize--;
+    return auxNode.getContent();
+  }
+
   @Override
   public String toString() {
     if (this.head == null)
